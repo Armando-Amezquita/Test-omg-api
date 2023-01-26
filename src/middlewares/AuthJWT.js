@@ -1,7 +1,7 @@
-const jwt = require('jsonwebtoken'),
-    config =  require('../config'),
-    User = require('../controllers/Users.controller')
-    Boom = require('@hapi/boom');
+const jwt = require('jsonwebtoken');
+const config =  require('../config');
+const { ClassUsers } = require('../controllers/Users.controller');
+const Boom = require('@hapi/boom');
 
 const verifyToken = async(req, res, next) => {
     try {
@@ -17,10 +17,8 @@ const verifyToken = async(req, res, next) => {
 
 const apikey = async(req, res, next) => {
     try {
-        const apikey = req.header("apikey");
+        const apikeyencoded = req.header("apikey");
         if (apikey == null) throw Error()
-        if(apikey != Buffer.from(config.APIKEY).toString('base64')) throw Error('Invalid ApiKey')
-        // if(apikey != config.APIKEY) return res.status(500).send({message: "Invalid ApiKey"});
         next();
     } catch (error) {
         next(Boom.unauthorized(error));
@@ -28,18 +26,9 @@ const apikey = async(req, res, next) => {
     
 }
 
-const isAdmin = async(req, res, next) => {
-    let user = await User.getByToken(req.header('token'));
-    if(user.role == 'seller') return res.status(401).json({
-        message: "No Authorized"
-    });
-    req.user = user
-    next();
-}
-
 const isUser = async(req, res, next) => {
     try {
-        let user = await User.getByToken(req.header('token'));
+        let user = await ClassUsers.getByToken(req.header('token'));
         req.user = user
         next();
         
@@ -53,6 +42,5 @@ const isUser = async(req, res, next) => {
 module.exports = {
     verifyToken, 
     apikey,
-    isAdmin,
     isUser
 }
