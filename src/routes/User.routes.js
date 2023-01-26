@@ -15,7 +15,7 @@ routerUsers.post('/', async (req, res, next) => {
 
 routerUsers.get('/', verifyToken, apikey, isUser,  async (req, res, next) =>{
     try {
-        const response = await ClassUsers.getAll(/* req.user */);
+        const response = await ClassUsers.getAll();
         res.status(200).json(response);
     } catch (error) {
         res.status(403);

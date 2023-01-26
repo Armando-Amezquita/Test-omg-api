@@ -1,7 +1,5 @@
 const Products = require('../models/Products');
-const Users = require('../models/User');
 const Boom = require('@hapi/boom');
-const moment = require('moment');
 
 class ClassProducts {
 
