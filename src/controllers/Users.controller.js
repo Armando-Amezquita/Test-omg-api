@@ -22,8 +22,9 @@ class ClassUsers {
         return users;    
     }
 
-    static async getById (user, id) {
+    static async getById (id) {
         const userId = await Users.findById(id);
+        userId.password = undefined
         return userId
     };
 

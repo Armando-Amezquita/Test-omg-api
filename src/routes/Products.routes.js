@@ -34,7 +34,25 @@ routerProducts.get('/', verifyToken, apikey, isUser, async(req, res, next) => {
 
 routerProducts.get('/:id', verifyToken, apikey, isUser, async(req, res, next) => {
     try {
-        const response = await ClassProducts.getById(req.user, req.params.id);
+        const response = await ClassProducts.getById(req.params.id);
+        res.status(200).json(response);
+    } catch (error) {
+        next(error);
+    }
+});
+
+routerProducts.put('/:id', verifyToken, apikey, isUser, async(req, res, next) => {
+    try {
+        const response = await ClassProducts.update(req.params.id, req.body);
+        res.status(200).json(response);
+    } catch (error) {
+        next(error);
+    }
+});
+
+routerProducts.delete('/:id', verifyToken, apikey, isUser, async(req, res, next) => {
+    try {
+        const response = await ClassProducts.delete(req.params.id);
         res.status(200).json(response);
     } catch (error) {
         next(error);

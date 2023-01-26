@@ -13,7 +13,7 @@ routerUsers.post('/', async (req, res, next) => {
     }
 });
 
-routerUsers.get('/', /* verifyToken, apikey, isUser, */ async (req, res, next) =>{
+routerUsers.get('/', verifyToken, apikey, isUser,  async (req, res, next) =>{
     try {
         const response = await ClassUsers.getAll(/* req.user */);
         res.status(200).json(response);
@@ -23,18 +23,9 @@ routerUsers.get('/', /* verifyToken, apikey, isUser, */ async (req, res, next) =
     }
 });
 
-// routerUsers.get('/notifications', verifyToken, apikey, isUser, async(req, res, next) => {
-//     try {
-//         const response = await ClassNotification.getAll(req.user);
-//         res.status(200).json(response);
-//     } catch (error) {
-//         next(error);
-//     }
-// });
-
-routerUsers.get('/:id'/* , verifyToken, apikey, isUser */, async(req, res, next) => {
+routerUsers.get('/:id' , verifyToken, apikey, isUser , async(req, res, next) => {
     try {
-        const response = await ClassUsers.getById(req.user, req.params.id);
+        const response = await ClassUsers.getById(req.params.id);
         if(response === undefined)
             throw new Error('Error');
 

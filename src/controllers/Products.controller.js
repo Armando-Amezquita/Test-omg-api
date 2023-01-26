@@ -41,42 +41,24 @@ class ClassProducts {
         return products;
     };
     
-    static async getById(user, id){
-        // let product = await Products.findById(id);
-        let products = await Products.aggregate([
-        //     {
-        //         $match: {
-        //           $expr: {
-        //             $eq: [
-        //               {
-        //                 $toObjectId: "$id_user"
-        //               },
-        //               "$$user"
-        //             ]
-        //           }
-        //         }
-        //     },
-            {
-                $match: { id_user: user._id}
-            },
-            {
-                $lookup: {
-                    pipeline: [
-                        {$project: {identification_number: 0, password: 0, createdAt: 0, updatedAt: 0, token: 0}},
-                    ],
-                    from: "users",
-                    localField: "id_user",
-                    foreignField: "_id",
-                    as: "user"
-                  }
-            },
-            { $unwind: "$user" },
-            {
-                $project: { id_user: 0, updatedAt: 0 }
-            }
-        ]);
+    static async getById(id){
+        let product = await Products.findById(id);
 
-        if(products) return { status: 200, products };
+        if(product) return { status: 200, product };
+        throw Boom.notFound(`There isn't product with that ID: ${id}`);
+    };
+
+    static async update( id, data ){
+        let product = await Products.findByIdAndUpdate(id, data, { new: true });
+
+        if(product) return { status: 200, product };
+        throw Boom.notFound(`There isn't product with that ID: ${id}`);
+    };
+    
+    static async delete( id ){
+        let product = await Products.findByIdAndDelete(id);
+
+        if(product) return { status: 200, product };
         throw Boom.notFound(`There isn't product with that ID: ${id}`);
     };
 };
