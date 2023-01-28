@@ -7,10 +7,7 @@
     "node": "14.x"
   },
   "scripts": {
-    "build": "Api build --output public",
-    "prod": "NODE_ENV=production node index",
-    "start": "node index.js",
-    "dev": "NODE_ENV=development nodemon index"
+    "start": "node index.js"
   },
   "author": "Armando Amezquita <a.amezquita.1009@gmail.com>",
   "license": "ISC",
