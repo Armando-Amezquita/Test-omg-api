@@ -1,12 +1,11 @@
-# fly.toml file generated for test-omg-api on 2023-01-28T02:50:54-05:00
+# fly.toml file generated for quiet-dust-3564 on 2023-01-28T09:05:40-05:00
 
-app = "test-omg-api"
+app = "quiet-dust-3564"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
 [env]
-  PORT = "8080"
 
 [experimental]
   auto_rollback = true
