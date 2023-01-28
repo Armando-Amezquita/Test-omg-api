@@ -61,9 +61,10 @@ routerProducts.put('/:id', verifyToken, apikey, isUser, async(req, res, next) =>
     }
 });
 
-routerProducts.delete('/:id', verifyToken, apikey, isUser, async(req, res, next) => {
+routerProducts.delete('/delete', verifyToken, apikey, isUser, async(req, res, next) => {
     try {
-        const response = await ClassProducts.delete(req.params.id);
+        const { id } = req.body;
+        const response = await ClassProducts.delete(id);
         res.status(200).json(response);
     } catch (error) {
         next(error);
