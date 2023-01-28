@@ -1,12 +1,21 @@
 const Products = require('../models/Products');
+const fs = require('fs');
 const Boom = require('@hapi/boom');
+
 
 class ClassProducts {
 
-    static async create(user, data){
+    static async create(user, data, file){
+        if(file){
+            fs.rename(`./uploads/${file.filename}`, `./uploads/${user._id}_${file.filename}`, function(err) {
+                if ( err ) console.log('ERROR: ' + err);
+            });
+            data.url_image = `${user._id}_${file.filename}`;
+        }
+
         let newProduct = new Products({
             ...data,
-            id_user: user._id
+            id_user: user._id   
         });
         await newProduct.save();
         return { message: 'Product added', status: 200, newProduct };
@@ -35,8 +44,12 @@ class ClassProducts {
             }
         ]);
 
+        for (const ele of products) {
+            ele.createdAt = ele.createdAt.toLocaleDateString();
+        }
+
         if(products.length === 0) throw Boom.notFound(`There aren't products`);
-        return products;
+        return { message: 'Products', status: 200, products };
     };
     
     static async getById(id){

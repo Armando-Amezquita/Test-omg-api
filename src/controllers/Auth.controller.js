@@ -29,8 +29,12 @@ class ClassAuth {
         accountFound.password = undefined;
         let response = accountFound;
         response.token = token
-        await User.findOneAndUpdate({email:response.email}, {token: token})
-        return response;
+        await User.findOneAndUpdate({email:response.email}, {token: token});
+        return {
+            status: 200,
+            message: "Welcome",
+            response
+        };
     }
 
     static async signUp(data) {
@@ -45,7 +49,7 @@ class ClassAuth {
         await newUser.save();
         newUser.password = undefined;
         return {
-            statusCode: 200,
+            status: 200,
             message: "User registered",
             newUser
         };

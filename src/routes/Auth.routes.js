@@ -22,10 +22,10 @@ router.post('/login',
 });
 
 router.post('/signup', 
-    body('name').not().isEmpty().trim().isAlpha(),
-    body('email').not().isEmpty().trim().isEmail(),
-    body('identification_number').not().isEmpty().trim().isNumeric(),
-    body('phone').not().isEmpty().trim().isNumeric(),
+    // body('name').not().isEmpty().trim().isAlpha(),
+    // body('email').not().isEmpty().trim().isEmail(),
+    // body('identification_number').not().isEmpty().trim().isNumeric(),
+    // body('phone').not().isEmpty().trim().isNumeric(),
     async (req, res, next) => {
     try {
         const errors = validationResult(req);

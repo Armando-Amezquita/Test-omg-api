@@ -11,7 +11,7 @@ class ClassUsers {
         await newUser.save();
 
         return {
-            statusCode: 200,
+            status: 200,
             message: "Creado con exito",
             newUser
         };

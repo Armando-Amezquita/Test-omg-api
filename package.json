@@ -9,7 +9,7 @@
   "scripts": {
     "build": "Api build --output public",
     "prod": "NODE_ENV=production node index",
-    "start": "nodemon index.js",
+    "start": "node index.js",
     "dev": "NODE_ENV=development nodemon index"
   },
   "author": "Armando Amezquita <a.amezquita.1009@gmail.com>",

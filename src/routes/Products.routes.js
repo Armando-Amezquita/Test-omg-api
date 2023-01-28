@@ -4,26 +4,37 @@ const { verifyToken, apikey, isUser } = require('../middlewares/AuthJWT');
 const routerProducts = Router();
 const { body, validationResult } = require('express-validator');
 const Boom = require('@hapi/boom');
+const express = require('express');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: 'uploads/',
+    filename: function (req,file,cb) {
+        cb("",Date.now() + '_' + file.originalname);
+    }
+});
+
+let upload = multer({
+    storage
+});
+
+routerProducts.use('/mediafiles', express.static('./uploads/'))
 
 routerProducts.post('/', 
-    body('name').not().isEmpty().trim().isAlphanumeric(),
-    body('value').not().isEmpty().trim().isNumeric(),
-    body('type').not().isEmpty().trim().isAlphanumeric(),
-    body('rating').not().isEmpty().trim().isNumeric(),
-    verifyToken, apikey, isUser, async(req, res, next) => {
+    verifyToken, apikey, isUser, upload.single('image'), async(req, res, next) => {
     try {
         const errors = validationResult(req);
         if(!errors.isEmpty()){
             throw Boom.unauthorized(`The field ${errors.errors[0].param} is ${errors.errors[0].msg} `);
         }
-        const response = await ClassProducts.create(req.user, req.body);
+        const response = await ClassProducts.create(req.user, req.body, req.file);
         res.status(200).json(response);
     } catch (error) {
         next(error);
     }
 });
 
-routerProducts.get('/', verifyToken, apikey, isUser, async(req, res, next) => {
+routerProducts.get('/', verifyToken, apikey, isUser,  async(req, res, next) => {
     try {
         const response = await ClassProducts.getAll(req.user);
         res.status(200).json(response);
