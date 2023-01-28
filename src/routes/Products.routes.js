@@ -52,9 +52,9 @@ routerProducts.get('/:id', verifyToken, apikey, isUser, async(req, res, next) =>
     }
 });
 
-routerProducts.put('/:id', verifyToken, apikey, isUser, async(req, res, next) => {
+routerProducts.put('/update', verifyToken, apikey, isUser, async(req, res, next) => {
     try {
-        const response = await ClassProducts.update(req.params.id, req.body);
+        const response = await ClassProducts.update(req.body);
         res.status(200).json(response);
     } catch (error) {
         next(error);

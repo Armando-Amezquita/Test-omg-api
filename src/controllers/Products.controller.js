@@ -59,8 +59,9 @@ class ClassProducts {
         throw Boom.notFound(`There isn't product with that ID: ${id}`);
     };
 
-    static async update( id, data ){
-        let product = await Products.findByIdAndUpdate(id, data, { new: true });
+    static async update( data ){
+        // let product = await Products.findByIdAndUpdate(data.id, data, { new: true });
+        let product = await Products.findByIdAndUpdate(data.id, data)
 
         if(product) return { status: 200, product };
         throw Boom.notFound(`There isn't product with that ID: ${id}`);
